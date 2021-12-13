@@ -2,13 +2,15 @@ program RelatorioAgnus;
 
 uses
   Vcl.Forms,
-  TelaPrincipal in 'TelaPrincipal.pas' {Form1};
+  TelaPrincipal in 'TelaPrincipal.pas' {frmTelaPrincipal},
+  TelaConfiguracao in 'TelaConfiguracao.pas' {frmTelaConfiguracao};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmTelaPrincipal, frmTelaPrincipal);
+  Application.CreateForm(TfrmTelaConfiguracao, frmTelaConfiguracao);
   Application.Run;
 end.

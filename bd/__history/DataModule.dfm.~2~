@@ -1,0 +1,13 @@
+object DataModule1: TDataModule1
+  OldCreateOrder = False
+  Height = 249
+  Width = 883
+  object ADOConnection1: TADOConnection
+    Connected = True
+    ConnectionString = 
+      'Provider=MSDASQL.1;Password=@H3xt0r;Persist Security Info=True;U' +
+      'ser ID=sa;Data Source=AGNUS'
+    Left = 40
+    Top = 24
+  end
+end
