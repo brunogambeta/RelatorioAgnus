@@ -125,10 +125,10 @@ begin
     begin
       queryDadosProdutos.SQL.Add('');
     end;
-     if idFormaPagamento.ToString <> '0' then
+    if idFormaPagamento.ToString <> '0' then
     begin
       queryDadosProdutos.SQL.Add('and f1.IdFormaPagamento = ''' +
-      idFormaPagamento.ToString + '''');
+        idFormaPagamento.ToString + '''');
     end
     else
     begin

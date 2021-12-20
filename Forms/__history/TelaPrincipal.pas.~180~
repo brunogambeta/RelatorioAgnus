@@ -45,14 +45,12 @@ type
     queryDadosProdutosValorTotal: TBCDField;
     queryDadosProdutosnomeAgrupamento: TStringField;
     queryDadosProdutosIdCartaoConsumo: TLargeintField;
-    DataSource1: TDataSource;
     ComboBox2: TComboBox;
     procedure Configuraes1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btImprimirClick(Sender: TObject);
     procedure ComboBox2Change(Sender: TObject);
-
 
   private
     { Private declarations }
@@ -118,23 +116,37 @@ begin
     queryDadosProdutos.SQL.Add('and v3.IdStatusItem = ''' + statusItem + '''');
     queryDadosProdutos.SQL.Add('and d1.Cancelado = 0');
     queryDadosProdutos.SQL.Add('and v3.idItemPai is null');
-    queryDadosProdutos.SQL.Add('and p1.IdAgrupamento = ''' + idAgrupamento + '''');
-    queryDadosProdutos.SQL.Add('and f1.IdFormaPagamento = ''' + idFormaPagamento.ToString + '''');
+    if idAgrupamento.ToString <> '0' then
+    begin
+      queryDadosProdutos.SQL.Add('and p1.IdAgrupamento = ''' +
+        idAgrupamento.ToString + '''');
+    end
+    else
+    begin
+      queryDadosProdutos.SQL.Add('');
+    end;
+     if idFormaPagamento.ToString <> '0' then
+    begin
+      queryDadosProdutos.SQL.Add('and f1.IdFormaPagamento = ''' +
+      idFormaPagamento.ToString + '''');
+    end
+    else
+    begin
+      queryDadosProdutos.SQL.Add('');
+    end;
     queryDadosProdutos.SQL.Add('order by');
     queryDadosProdutos.SQL.Add('v2.id');
 
   end;
 
   queryDadosProdutos.Open;
-  ShowMessage(idFormaPagamento.ToString, idAgrupamento.ToString);
-  // RelatorioProdutosVendidos.ShowReport(true);
+  RelatorioProdutosVendidos.ShowReport(true);
 
 end;
 
 procedure TfrmTelaPrincipal.ComboBox1Change(Sender: TObject);
 begin
   conexaoBanco.Connected := true;
-  ComboBox1.Clear;
   queryAgrupamento.Active := true;
   queryAgrupamento.Close;
   queryAgrupamento.SQL.Clear;
@@ -159,7 +171,7 @@ end;
 procedure TfrmTelaPrincipal.ComboBox2Change(Sender: TObject);
 begin
   conexaoBanco.Connected := true;
-  //ComboBox2.Clear;
+  // ComboBox2.Clear;
   queryFormaPagamento.Active := true;
   queryFormaPagamento.Close;
   queryFormaPagamento.SQL.Clear;
@@ -171,8 +183,8 @@ begin
     queryFormaPagamento.First;
     while NOT queryFormaPagamento.Eof do
     begin
-      ComboBox2.Items.AddObject(queryFormaPagamento.FieldByName('Nome').AsString,
-        TObject(queryFormaPagamento.FieldByName('id').AsInteger));
+      ComboBox2.Items.AddObject(queryFormaPagamento.FieldByName('Nome')
+        .AsString, TObject(queryFormaPagamento.FieldByName('id').AsInteger));
       queryFormaPagamento.Next;
     end;
 
@@ -185,7 +197,6 @@ begin
   frmTelaConfiguracao.ShowModal;
 end;
 
-
 procedure TfrmTelaPrincipal.FormCreate(Sender: TObject);
 begin
 
@@ -193,6 +204,5 @@ begin
   ComboBox2Change(Self);
 
 end;
-
 
 end.
