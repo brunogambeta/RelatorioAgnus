@@ -135,8 +135,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       Font.Name = 'Segoe UI'
       Font.Style = []
       HighlightColor = clBlack
-      IsEmpty = False
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       TextHint = '__/__/____'
     end
@@ -163,7 +164,6 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       Font.Name = 'Segoe UI'
       Font.Style = []
       HighlightColor = clBlack
-      IsEmpty = False
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
@@ -207,7 +207,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
   end
   object PanelBotao: TPanel
     Left = 0
-    Top = 200
+    Top = 207
     Width = 569
     Height = 41
     TabOrder = 2
@@ -398,7 +398,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 44541.944998946800000000
-    ReportOptions.LastChange = 44549.873573020840000000
+    ReportOptions.LastChange = 44551.619490127310000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -436,7 +436,6 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         DataSet = frxDBDataset1
         DataSetName = 'frxDBDataset1'
         RowCount = 0
-        Stretched = True
         object frxDBDataset1IDProduto: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
@@ -547,7 +546,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         Height = 52.913420000000000000
         Top = 192.756030000000000000
         Width = 1046.929810000000000000
-        Condition = '<frxDBDataset1."IDDocumentoFiscal">'
+        Condition = 'frxDBDataset1."IDVenda"'
         object Memo2: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000

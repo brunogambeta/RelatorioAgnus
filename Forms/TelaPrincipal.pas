@@ -76,6 +76,19 @@ var
   statusItem: String;
 
 begin
+  if dataInicialCalendar.IsEmpty then
+    begin
+     Application.MessageBox('Data inicial invalida, verifique!', 'Aviso',
+      mb_Ok + mb_IconExclamation);
+      exit
+    end;
+    if datafinalCalendar.IsEmpty then
+    begin
+      Application.MessageBox('Data final invalida, verifique!', 'Aviso',
+      mb_Ok + mb_IconExclamation);
+      exit
+    end;
+
   tipoCupom := 'CF';
   statusItem := '1';
   dataInicial := datetostr(dataInicialCalendar.Date);
@@ -85,6 +98,8 @@ begin
   conexaoBanco.Connected := true;
   queryDadosProdutos.Active := true;
   queryDadosProdutos.SQL.Clear;
+
+
   with queryDadosProdutos.SQL do
   begin
 
