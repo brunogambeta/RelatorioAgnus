@@ -32,20 +32,15 @@ type
     frxDBDataset1: TfrxDBDataset;
     frxPDFExport1: TfrxPDFExport;
     RelatorioProdutosVendidos: TfrxReport;
-    queryDadosProdutosIDVenda: TLargeintField;
-    queryDadosProdutosIDDocumentoFiscal: TLargeintField;
-    queryDadosProdutosIDProduto: TLargeintField;
-    queryDadosProdutosIDFormaPagamento: TIntegerField;
-    queryDadosProdutosNomeForma: TStringField;
-    queryDadosProdutosnomeProduto: TStringField;
-    queryDadosProdutosqtdProduto: TBCDField;
-    queryDadosProdutosIDAgrupamento: TLargeintField;
-    queryDadosProdutosvalorVenda: TBCDField;
-    queryDadosProdutosValorUnitario: TBCDField;
-    queryDadosProdutosValorTotal: TBCDField;
-    queryDadosProdutosnomeAgrupamento: TStringField;
-    queryDadosProdutosIdCartaoConsumo: TLargeintField;
     ComboBox2: TComboBox;
+    queryDadosProdutosIDProduto: TLargeintField;
+    queryDadosProdutosNomeFormaPagamento: TStringField;
+    queryDadosProdutosIDFormaPagamento: TIntegerField;
+    queryDadosProdutosnomeProduto: TStringField;
+    queryDadosProdutosIDAgrupamento: TLargeintField;
+    queryDadosProdutosNome: TStringField;
+    queryDadosProdutosquantidade: TFMTBCDField;
+    queryDadosProdutosvalorUnitario: TBCDField;
     procedure Configuraes1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -76,6 +71,19 @@ var
   statusItem: String;
 
 begin
+  if dataInicialCalendar.IsEmpty then
+    begin
+     Application.MessageBox('Data inicial invalida, verifique!', 'Aviso',
+      mb_Ok + mb_IconExclamation);
+      exit
+    end;
+    if datafinalCalendar.IsEmpty then
+    begin
+      Application.MessageBox('Data final invalida, verifique!', 'Aviso',
+      mb_Ok + mb_IconExclamation);
+      exit
+    end;
+
   tipoCupom := 'CF';
   statusItem := '1';
   dataInicial := datetostr(dataInicialCalendar.Date);
@@ -85,6 +93,8 @@ begin
   conexaoBanco.Connected := true;
   queryDadosProdutos.Active := true;
   queryDadosProdutos.SQL.Clear;
+
+
   with queryDadosProdutos.SQL do
   begin
 
@@ -125,10 +135,10 @@ begin
     begin
       queryDadosProdutos.SQL.Add('');
     end;
-     if idFormaPagamento.ToString <> '0' then
+    if idFormaPagamento.ToString <> '0' then
     begin
       queryDadosProdutos.SQL.Add('and f1.IdFormaPagamento = ''' +
-      idFormaPagamento.ToString + '''');
+        idFormaPagamento.ToString + '''');
     end
     else
     begin

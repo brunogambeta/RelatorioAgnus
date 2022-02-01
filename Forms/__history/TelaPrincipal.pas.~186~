@@ -32,20 +32,14 @@ type
     frxDBDataset1: TfrxDBDataset;
     frxPDFExport1: TfrxPDFExport;
     RelatorioProdutosVendidos: TfrxReport;
-    queryDadosProdutosIDVenda: TLargeintField;
-    queryDadosProdutosIDDocumentoFiscal: TLargeintField;
-    queryDadosProdutosIDProduto: TLargeintField;
-    queryDadosProdutosIDFormaPagamento: TIntegerField;
-    queryDadosProdutosNomeForma: TStringField;
-    queryDadosProdutosnomeProduto: TStringField;
-    queryDadosProdutosqtdProduto: TBCDField;
-    queryDadosProdutosIDAgrupamento: TLargeintField;
-    queryDadosProdutosvalorVenda: TBCDField;
-    queryDadosProdutosValorUnitario: TBCDField;
-    queryDadosProdutosValorTotal: TBCDField;
-    queryDadosProdutosnomeAgrupamento: TStringField;
-    queryDadosProdutosIdCartaoConsumo: TLargeintField;
     ComboBox2: TComboBox;
+    queryDadosProdutosIDProduto: TLargeintField;
+    queryDadosProdutosFormaPagamento: TStringField;
+    queryDadosProdutosnomeProduto: TStringField;
+    queryDadosProdutosIDAgrupamento: TLargeintField;
+    queryDadosProdutosNome: TStringField;
+    queryDadosProdutosquantidade: TFMTBCDField;
+    queryDadosProdutosvalorUnitario: TBCDField;
     procedure Configuraes1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -78,7 +72,7 @@ var
 begin
   if dataInicialCalendar.IsEmpty then
     begin
-     Application.MessageBox('Data final invalida, verifique!', 'Aviso',
+     Application.MessageBox('Data inicial invalida, verifique!', 'Aviso',
       mb_Ok + mb_IconExclamation);
       exit
     end;

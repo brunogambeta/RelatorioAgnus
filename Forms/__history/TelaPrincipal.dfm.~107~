@@ -3,8 +3,8 @@ object frmTelaPrincipal: TfrmTelaPrincipal
   Top = 0
   BorderStyle = bsSingle
   Caption = 'Relatorio Agnus'
-  ClientHeight = 239
-  ClientWidth = 569
+  ClientHeight = 290
+  ClientWidth = 568
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -25,13 +25,13 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Height = 41
     TabOrder = 0
     object label1: TLabel
-      AlignWithMargins = True
-      Left = 4
-      Top = 4
-      Width = 561
-      Height = 33
+      Left = 1
+      Top = 1
+      Width = 567
+      Height = 39
       Align = alClient
       Alignment = taCenter
+      Anchors = [akLeft]
       AutoSize = False
       BiDiMode = bdLeftToRight
       Caption = 'Relat'#243'rio de Produtos Faturados'
@@ -43,14 +43,14 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       ParentBiDiMode = False
       ParentFont = False
       Layout = tlCenter
-      ExplicitWidth = 581
+      ExplicitWidth = 500
     end
   end
   object PanelFiltros: TPanel
     Left = 4
     Top = 40
-    Width = 565
-    Height = 161
+    Width = 653
+    Height = 225
     TabOrder = 1
     object Label2: TLabel
       Left = 98
@@ -84,9 +84,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     end
     object Label4: TLabel
       Left = 80
-      Top = 72
+      Top = 120
       Width = 97
-      Height = 19
+      Height = 21
       Alignment = taRightJustify
       Caption = 'Agrupamento'
       Font.Charset = DEFAULT_CHARSET
@@ -99,9 +99,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     end
     object Label5: TLabel
       Left = 48
-      Top = 108
+      Top = 157
       Width = 129
-      Height = 19
+      Height = 20
       Alignment = taRightJustify
       Caption = 'Forma Pagamento'
       Font.Charset = DEFAULT_CHARSET
@@ -172,7 +172,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     end
     object ComboBox1: TComboBox
       Left = 183
-      Top = 71
+      Top = 119
       Width = 226
       Height = 26
       AutoComplete = False
@@ -189,7 +189,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     end
     object ComboBox2: TComboBox
       Left = 183
-      Top = 103
+      Top = 155
       Width = 226
       Height = 26
       AutoComplete = False
@@ -207,9 +207,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
   end
   object PanelBotao: TPanel
     Left = 0
-    Top = 207
-    Width = 569
-    Height = 41
+    Top = 255
+    Width = 657
+    Height = 49
     TabOrder = 2
     object btImprimir: TButton
       Left = 204
@@ -242,8 +242,8 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Parameters = <>
     SQL.Strings = (
       'select * from agrupamento')
-    Left = 36
-    Top = 192
+    Left = 20
+    Top = 240
   end
   object queryFormaPagamento: TADOQuery
     Connection = conexaoBanco
@@ -260,15 +260,23 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
+      ''
       'select '
+      'p1.id IDProduto,'
       
-        'v2.id IDVenda,d1.id IDDocumentoFiscal,p1.id IDProduto,f2.id IDFo' +
-        'rmaPagamento,f2.Nome NomeForma,'
+        '(select top 1 Nome from FormaPagamento where id = f1.IdFormaPaga' +
+        'mento) NomeFormaPagamento,'
       
-        'p1.Nome nomeProduto,v3.Quantidade qtdProduto, p1.IDAgrupamento I' +
-        'DAgrupamento,f1.Valor valorVenda, v3.ValorUnitario ValorUnitario' +
-        ',v3.ValorTotal,'
-      'a1.Nome nomeAgrupamento, v4.IdCartaoConsumo'
+        '(select top 1 Id from FormaPagamento where id = f1.IdFormaPagame' +
+        'nto) IDFormaPagamento,'
+      'p1.Nome nomeProduto,'
+      'p1.IDAgrupamento IDAgrupamento,'
+      'a1.Nome,'
+      'sum(v3.ValorTotal) valorCobrado,'
+      'sum(v3.quantidade) quantidade,'
+      
+        '(select top 1 ValorUnitario from Produto where id = p1.Id ) valo' +
+        'rUnitario '
       'from VendaCupomFiscal v1 '
       'left join Documentofiscal d1 on (d1.id = v1.IdDocumentoFiscal)'
       'left join Venda v2 on (v2.Id = v1.IdVenda)'
@@ -285,80 +293,73 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         #39
       'and d1.Tipo = '#39'CF'#39' '
       'and d1.Cancelado = 0'
-      '--and p1.IdAgrupamento = 11'
-      '--and f1.IdFormaPagamento = 1'
+      'and v3.ValorTotal > 0'
+      'group by'
+      'p1.id,'
+      'p1.Nome,'
+      'p1.IdAgrupamento,'
+      'v3.valorUnitario,'
+      'f1.IdFormaPagamento,'
+      'a1.Nome'
       'order by '
-      'v2.id')
-    Left = 400
-    Top = 184
-    object queryDadosProdutosIDVenda: TLargeintField
-      FieldName = 'IDVenda'
-    end
-    object queryDadosProdutosIDDocumentoFiscal: TLargeintField
-      FieldName = 'IDDocumentoFiscal'
-    end
+      'f1.IdFormaPagamento')
+    Left = 496
+    Top = 216
     object queryDadosProdutosIDProduto: TLargeintField
       FieldName = 'IDProduto'
     end
+    object queryDadosProdutosNomeFormaPagamento: TStringField
+      FieldName = 'NomeFormaPagamento'
+      ReadOnly = True
+      Size = 100
+    end
     object queryDadosProdutosIDFormaPagamento: TIntegerField
       FieldName = 'IDFormaPagamento'
-    end
-    object queryDadosProdutosNomeForma: TStringField
-      FieldName = 'NomeForma'
-      Size = 100
+      ReadOnly = True
     end
     object queryDadosProdutosnomeProduto: TStringField
       FieldName = 'nomeProduto'
       Size = 100
     end
-    object queryDadosProdutosqtdProduto: TBCDField
-      FieldName = 'qtdProduto'
-      Precision = 10
-      Size = 3
-    end
     object queryDadosProdutosIDAgrupamento: TLargeintField
       FieldName = 'IDAgrupamento'
     end
-    object queryDadosProdutosvalorVenda: TBCDField
-      FieldName = 'valorVenda'
-      Precision = 10
-      Size = 2
-    end
-    object queryDadosProdutosValorUnitario: TBCDField
-      FieldName = 'ValorUnitario'
-      Precision = 10
-      Size = 2
-    end
-    object queryDadosProdutosValorTotal: TBCDField
-      FieldName = 'ValorTotal'
-      Precision = 10
-      Size = 2
-    end
-    object queryDadosProdutosnomeAgrupamento: TStringField
-      FieldName = 'nomeAgrupamento'
+    object queryDadosProdutosNome: TStringField
+      FieldName = 'Nome'
       Size = 100
     end
-    object queryDadosProdutosIdCartaoConsumo: TLargeintField
-      FieldName = 'IdCartaoConsumo'
+    object queryDadosProdutosvalorCobrado: TFMTBCDField
+      FieldName = 'valorCobrado'
+      ReadOnly = True
+      Precision = 38
+      Size = 2
+    end
+    object queryDadosProdutosquantidade: TFMTBCDField
+      FieldName = 'quantidade'
+      ReadOnly = True
+      Precision = 38
+      Size = 3
+    end
+    object queryDadosProdutosvalorUnitario: TBCDField
+      FieldName = 'valorUnitario'
+      ReadOnly = True
+      Precision = 10
+      Size = 2
     end
   end
   object frxDBDataset1: TfrxDBDataset
     UserName = 'frxDBDataset1'
     CloseDataSource = False
     FieldAliases.Strings = (
-      'IDVenda=IDVenda'
-      'IDDocumentoFiscal=IDDocumentoFiscal'
       'IDProduto=IDProduto'
+      'NomeFormaPagamento=NomeFormaPagamento'
       'IDFormaPagamento=IDFormaPagamento'
-      'NomeForma=NomeForma'
       'nomeProduto=nomeProduto'
-      'qtdProduto=qtdProduto'
       'IDAgrupamento=IDAgrupamento'
-      'valorVenda=valorVenda'
-      'ValorUnitario=ValorUnitario'
-      'ValorTotal=ValorTotal'
-      'nomeAgrupamento=nomeAgrupamento'
-      'IdCartaoConsumo=IdCartaoConsumo')
+      'Nome=Nome'
+      'valorCobrado=valorCobrado'
+      'quantidade=quantidade'
+      'valorUnitario=ValorUnitario')
     DataSet = queryDadosProdutos
     BCDToCurrency = False
     Left = 500
@@ -398,7 +399,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 44541.944998946800000000
-    ReportOptions.LastChange = 44551.619490127310000000
+    ReportOptions.LastChange = 44592.912624837960000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -430,8 +431,8 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       object MasterData1: TfrxMasterData
         FillType = ftBrush
         Frame.Typ = []
-        Height = 22.677180000000000000
-        Top = 268.346630000000000000
+        Height = 18.897650000000000000
+        Top = 264.567100000000000000
         Width = 1046.929810000000000000
         DataSet = frxDBDataset1
         DataSetName = 'frxDBDataset1'
@@ -441,13 +442,12 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           AllowVectorExport = True
           Left = 3.779530000000000000
           Width = 109.606370000000000000
-          Height = 18.897650000000000000
-          DataField = 'IDProduto'
+          Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = []
@@ -461,13 +461,12 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           AllowVectorExport = True
           Left = 117.165430000000000000
           Width = 340.157700000000000000
-          Height = 18.897650000000000000
-          DataField = 'nomeProduto'
+          Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = []
@@ -480,19 +479,18 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           AllowVectorExport = True
           Left = 461.102660000000000000
           Width = 105.826840000000000000
-          Height = 18.897650000000000000
-          DataField = 'qtdProduto'
+          Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[frxDBDataset1."qtdProduto"]')
+            '[frxDBDataset1."quantidade"]')
           ParentFont = False
         end
         object frxDBDataset1ValorUnitario: TfrxMemoView
@@ -500,15 +498,14 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           AllowVectorExport = True
           Left = 574.488560000000000000
           Width = 124.724490000000000000
-          Height = 18.897650000000000000
-          DataField = 'ValorUnitario'
+          Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           DisplayFormat.FormatStr = '%2.2f'
           DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = []
@@ -517,26 +514,25 @@ object frmTelaPrincipal: TfrmTelaPrincipal
             '[frxDBDataset1."ValorUnitario"]')
           ParentFont = False
         end
-        object Memo11: TfrxMemoView
+        object Memo14: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
           Left = 710.551640000000000000
           Width = 124.724490000000000000
-          Height = 18.897650000000000000
-          DataField = 'ValorTotal'
+          Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           DisplayFormat.FormatStr = '%2.2f'
           DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
-          Font.Height = -13
+          Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
           Frame.Typ = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[frxDBDataset1."ValorTotal"]')
+            '[frxDBDataset1."valorCobrado"]')
           ParentFont = False
         end
       end
@@ -544,55 +540,12 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         FillType = ftBrush
         Frame.Typ = []
         Height = 52.913420000000000000
-        Top = 192.756030000000000000
+        Top = 188.976500000000000000
         Width = 1046.929810000000000000
-        Condition = 'frxDBDataset1."IDVenda"'
-        object Memo2: TfrxMemoView
-          AllowVectorExport = True
-          Left = 3.779530000000000000
-          Width = 49.133890000000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          Memo.UTF8W = (
-            'Venda:')
-          ParentFont = False
-        end
-        object frxDBDataset1IDVenda: TfrxMemoView
-          IndexTag = 1
-          AllowVectorExport = True
-          Left = 60.472480000000000000
-          Width = 120.944960000000000000
-          Height = 18.897650000000000000
-          DataField = 'IDVenda'
-          DataSet = frxDBDataset1
-          DataSetName = 'frxDBDataset1'
-          Frame.Typ = []
-          Memo.UTF8W = (
-            '[frxDBDataset1."IDVenda"]')
-        end
-        object Memo3: TfrxMemoView
-          AllowVectorExport = True
-          Left = 185.196970000000000000
-          Width = 117.165430000000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          Memo.UTF8W = (
-            'Cart'#227'o Consumo:')
-          ParentFont = False
-        end
+        Condition = 'frxDBDataset1."IDFormaPagamento"'
         object Memo4: TfrxMemoView
           AllowVectorExport = True
-          Left = 415.748300000000000000
+          Left = 3.779530000000000000
           Width = 151.181200000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -608,34 +561,12 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object frxDBDataset1NomeForma: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Left = 574.488560000000000000
+          Left = 154.960730000000000000
           Width = 222.992270000000000000
           Height = 18.897650000000000000
-          DataField = 'NomeForma'
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           Frame.Typ = []
-          Memo.UTF8W = (
-            '[frxDBDataset1."NomeForma"]')
-        end
-        object frxDBDataset1IdCartaoConsumo: TfrxMemoView
-          IndexTag = 1
-          AllowVectorExport = True
-          Left = 309.921460000000000000
-          Width = 71.811070000000000000
-          Height = 18.897650000000000000
-          DataField = 'IdCartaoConsumo'
-          DataSet = frxDBDataset1
-          DataSetName = 'frxDBDataset1'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Frame.Typ = []
-          Memo.UTF8W = (
-            '[frxDBDataset1."IdCartaoConsumo"]')
-          ParentFont = False
         end
         object Memo6: TfrxMemoView
           AllowVectorExport = True
@@ -689,7 +620,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         end
         object Memo9: TfrxMemoView
           AllowVectorExport = True
-          Left = 570.709030000000000000
+          Left = 575.709030000000000000
           Top = 26.456710000000000000
           Width = 124.724490000000000000
           Height = 18.897650000000000000
@@ -706,7 +637,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         end
         object Memo12: TfrxMemoView
           AllowVectorExport = True
-          Left = 706.772110000000000000
+          Left = 711.772110000000000000
           Top = 26.456710000000000000
           Width = 124.724490000000000000
           Height = 18.897650000000000000
@@ -736,12 +667,24 @@ object frmTelaPrincipal: TfrmTelaPrincipal
               '----------------------------------------------------------------' +
               '---------------')
         end
+        object frxDBDataset1FormaPagamento: TfrxMemoView
+          IndexTag = 1
+          AllowVectorExport = True
+          Left = 158.740260000000000000
+          Width = 215.433210000000000000
+          Height = 18.897650000000000000
+          DataSet = frxDBDataset1
+          DataSetName = 'frxDBDataset1'
+          Frame.Typ = []
+          Memo.UTF8W = (
+            '[frxDBDataset1."NomeFormaPagamento"]')
+        end
       end
       object GroupFooter1: TfrxGroupFooter
         FillType = ftBrush
         Frame.Typ = []
         Height = 60.472480000000000000
-        Top = 313.700990000000000000
+        Top = 306.141930000000000000
         Width = 1046.929810000000000000
         AllowSplit = True
         object Memo10: TfrxMemoView
@@ -810,16 +753,30 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           ParentFont = False
           VAlign = vaCenter
         end
-        object frxDBDataset1valorVenda: TfrxMemoView
-          IndexTag = 1
+        object SysMemo1: TfrxSysMemoView
           AllowVectorExport = True
-          Left = 744.567410000000000000
-          Top = 18.000000000000000000
-          Width = 90.708720000000000000
+          Left = 468.661720000000000000
+          Top = 18.897650000000000000
+          Width = 94.488250000000000000
           Height = 18.897650000000000000
-          DataField = 'valorVenda'
-          DataSet = frxDBDataset1
-          DataSetName = 'frxDBDataset1'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          Frame.Typ = []
+          HAlign = haCenter
+          Memo.UTF8W = (
+            '[SUM(<frxDBDataset1."quantidade">,MasterData1)]')
+          ParentFont = False
+        end
+        object SysMemo3: TfrxSysMemoView
+          AllowVectorExport = True
+          Left = 740.787880000000000000
+          Top = 18.118120000000000000
+          Width = 94.488250000000000000
+          Height = 18.897650000000000000
+          DisplayFormat.DecimalSeparator = ','
           DisplayFormat.FormatStr = '%2.2f'
           DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
@@ -830,33 +787,14 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Frame.Typ = []
           HAlign = haRight
           Memo.UTF8W = (
-            '[frxDBDataset1."valorVenda"]')
+            '[SUM(<frxDBDataset1."valorCobrado">,MasterData1)]')
           ParentFont = False
-          VAlign = vaCenter
-        end
-        object SysMemo1: TfrxSysMemoView
-          AllowVectorExport = True
-          Left = 464.882190000000000000
-          Top = 18.000000000000000000
-          Width = 102.047310000000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = []
-          Frame.Typ = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '[SUM(<frxDBDataset1."qtdProduto">,MasterData1)]')
-          ParentFont = False
-          VAlign = vaCenter
         end
       end
       object ReportTitle1: TfrxReportTitle
         FillType = ftBrush
         Frame.Typ = []
-        Height = 113.385900000000000000
+        Height = 108.913420000000000000
         Top = 18.897650000000000000
         Width = 1046.929810000000000000
         AllowSplit = True
@@ -879,7 +817,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         end
         object Memo18: TfrxMemoView
           AllowVectorExport = True
-          Top = 96.015770000000000000
+          Top = 90.015770000000000000
           Width = 1043.150280000000000000
           Height = 18.897650000000000000
           Frame.Typ = []
@@ -897,7 +835,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Left = 11.338590000000000000
           Top = 3.440940000000000000
           Width = 160.149350000000000000
-          Height = 101.283240000000000000
+          Height = 89.944650000000000000
           Center = True
           Frame.Typ = []
           Picture.Data = {
@@ -4460,7 +4398,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         FillType = ftBrush
         Frame.Typ = []
         Height = 22.677180000000000000
-        Top = 434.645950000000000000
+        Top = 427.086890000000000000
         Width = 1046.929810000000000000
         object SysMemo2: TfrxSysMemoView
           AllowVectorExport = True
