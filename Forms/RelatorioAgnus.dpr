@@ -3,7 +3,9 @@ program RelatorioAgnus;
 uses
   Vcl.Forms,
   TelaPrincipal in 'TelaPrincipal.pas' {frmTelaPrincipal},
-  TelaConfiguracao in 'TelaConfiguracao.pas' {frmTelaConfiguracao};
+  TelaConfiguracao in 'TelaConfiguracao.pas' {frmTelaConfiguracao},
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 

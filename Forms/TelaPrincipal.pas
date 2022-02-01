@@ -43,11 +43,11 @@ type
     queryDadosProdutosvalorCobrado: TFMTBCDField;
     queryDadosProdutosquantidade: TFMTBCDField;
     queryDadosProdutosvalorUnitario: TBCDField;
-    HoraInicial: TDateTimePicker;
+    DTHoraInicial: TDateTimePicker;
     Label6: TLabel;
     Label7: TLabel;
-    HoraFinal: TDateTimePicker;
-    CheckBox1: TCheckBox;
+    DTHoraFinal: TDateTimePicker;
+    CheckBoxFiltrarHora: TCheckBox;
     procedure Configuraes1Click(Sender: TObject);
     procedure ComboBox1Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -102,6 +102,8 @@ begin
   conexaoBanco.Connected := true;
   queryDadosProdutos.Active := true;
   queryDadosProdutos.SQL.Clear;
+  horaInicial := timetostr(DTHoraInicial.Time);
+  horaFinal := timetostr(DTHoraFinal.Time);
 
 
   with queryDadosProdutos.SQL do
@@ -128,7 +130,6 @@ begin
     queryDadosProdutos.SQL.Add('left join VendaCartaoConsumo v4 on (v4.idVenda = v2.Id)');
     queryDadosProdutos.SQL.Add('where cast(d1.data as date) between ''' +
       dataInicial + ''' and ''' + dataFinal + '''');
-    queryDadosProdutos.SQL.Add('and d1.Hora between ''1900-01-01'+ horaInicial+'.000'' and ''1900-01-01'+horaFinal+'.000''');
     queryDadosProdutos.SQL.Add('and d1.Tipo = ''' + tipoCupom + '''');
     queryDadosProdutos.SQL.Add('and d1.Cancelado = 0 ');
     queryDadosProdutos.SQL.Add('and v3.ValorTotal > 0');
@@ -151,6 +152,15 @@ begin
     begin
       queryDadosProdutos.SQL.Add('');
     end;
+
+    if CheckBoxFiltrarHora.Checked then
+    begin
+      queryDadosProdutos.SQL.Add('and d1.Hora between ''1900-01-01 '+ horaInicial+'.000'' and ''1900-01-01 '+horaFinal+'.000''');
+    end
+    else
+      begin
+        queryDadosProdutos.SQL.Add('');
+      end;
     queryDadosProdutos.SQL.Add('group by ');
     queryDadosProdutos.SQL.Add('p1.id,');
     queryDadosProdutos.SQL.Add('p1.Nome,');
@@ -159,7 +169,8 @@ begin
     queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
     queryDadosProdutos.SQL.Add('a1.Nome');
     queryDadosProdutos.SQL.Add('order by');
-    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento');
+    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
+    queryDadosProdutos.SQL.Add('p1.id');
 
   end;
 
@@ -223,7 +234,6 @@ end;
 
 procedure TfrmTelaPrincipal.FormCreate(Sender: TObject);
 begin
-
   ComboBox1Change(Self);
   ComboBox2Change(Self);
 
