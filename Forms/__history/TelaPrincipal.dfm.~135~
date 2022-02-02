@@ -5506,6 +5506,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Align = alTop
     Alignment = taLeftJustify
     TabOrder = 0
+    ExplicitWidth = 569
     object label1: TLabel
       Left = 1
       Top = 1
@@ -5541,6 +5542,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    ExplicitHeight = 224
     object Label2: TLabel
       Left = 67
       Top = 6
@@ -5739,6 +5741,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Height = 49
     Align = alBottom
     TabOrder = 2
+    ExplicitLeft = 1
+    ExplicitTop = 287
+    ExplicitWidth = 455
     DesignSize = (
       444
       49)
@@ -5768,18 +5773,19 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     Date = 44592.000000000000000000
     Format = 'HH:mm:ss'
     Time = 0.000011574076779652
-    Checked = False
     DateMode = dmUpDown
-    Kind = dtkTime
+    DoubleBuffered = False
+    ParentDoubleBuffered = False
     ParentShowHint = False
     ShowHint = False
     TabOrder = 3
   end
   object DTHoraFinal: TDateTimePicker
-    Left = 286
+    Left = 287
     Top = 123
     Width = 75
     Height = 24
+    Hint = '  :  :  '
     Date = 44592.000000000000000000
     Format = 'HH:mm:ss'
     Time = 0.999988425923220300
@@ -5963,7 +5969,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 44541.944998946800000000
-    ReportOptions.LastChange = 44593.921779375000000000
+    ReportOptions.LastChange = 44593.014669976850000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -6040,14 +6046,11 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object frxDBDataset1qtdProduto: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Left = 468.661720000000000000
-          Width = 94.488250000000000000
+          Left = 461.102660000000000000
+          Width = 105.826840000000000000
           Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
-          DisplayFormat.DecimalSeparator = ','
-          DisplayFormat.FormatStr = '%2.2f'
-          DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -11
@@ -6083,8 +6086,8 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object Memo14: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Left = 740.787880000000000000
-          Width = 94.488250000000000000
+          Left = 710.551640000000000000
+          Width = 124.724490000000000000
           Height = 15.118120000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
@@ -6106,11 +6109,10 @@ object frmTelaPrincipal: TfrmTelaPrincipal
       object GroupHeader1: TfrxGroupHeader
         FillType = ftBrush
         Frame.Typ = []
-        Height = 56.913420000000000000
+        Height = 56.692950000000000000
         Top = 173.858380000000000000
         Width = 1046.929810000000000000
         Condition = 'frxDBDataset1."IDFormaPagamento"'
-        KeepTogether = True
         object Memo4: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000
@@ -6141,7 +6143,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object Memo6: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000
-          Top = 34.236240000000000000
+          Top = 30.236240000000000000
           Width = 105.826840000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6152,13 +6154,13 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            'C'#243'digo:')
+            'C'#243'digo Produto:')
           ParentFont = False
         end
         object Memo7: TfrxMemoView
           AllowVectorExport = True
           Left = 113.385900000000000000
-          Top = 34.236240000000000000
+          Top = 30.236240000000000000
           Width = 196.535560000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6174,7 +6176,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object Memo8: TfrxMemoView
           AllowVectorExport = True
           Left = 457.323130000000000000
-          Top = 33.236240000000000000
+          Top = 30.236240000000000000
           Width = 105.826840000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6191,7 +6193,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object Memo9: TfrxMemoView
           AllowVectorExport = True
           Left = 575.709030000000000000
-          Top = 33.236240000000000000
+          Top = 30.236240000000000000
           Width = 124.724490000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6208,7 +6210,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object Memo12: TfrxMemoView
           AllowVectorExport = True
           Left = 711.772110000000000000
-          Top = 33.236240000000000000
+          Top = 30.236240000000000000
           Width = 124.724490000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6235,32 +6237,24 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Memo.UTF8W = (
             '[frxDBDataset1."NomeFormaPagamento"]')
         end
-        object Line1: TfrxLineView
-          AllowVectorExport = True
-          Top = 30.236240000000000000
-          Width = 1046.929810000000000000
-          Color = clBlack
-          Frame.Typ = [ftTop]
-        end
         object Shape2: TfrxShapeView
           AllowVectorExport = True
-          Top = 1.055040000000000000
           Width = 1046.929810000000000000
-          Height = 52.913420000000000000
+          Height = 56.692950000000000000
           Frame.Typ = []
         end
       end
       object GroupFooter1: TfrxGroupFooter
         FillType = ftBrush
         Frame.Typ = []
-        Height = 34.574830000000000000
+        Height = 37.795300000000000000
         Top = 294.803340000000000000
         Width = 1046.929810000000000000
         AllowSplit = True
         object Memo15: TfrxMemoView
           AllowVectorExport = True
           Left = 306.141930000000000000
-          Top = 9.251966059999970000
+          Top = 9.251966060000000000
           Width = 151.181200000000000000
           Height = 18.897650000000000000
           Font.Charset = DEFAULT_CHARSET
@@ -6296,12 +6290,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object SysMemo1: TfrxSysMemoView
           AllowVectorExport = True
           Left = 468.661720000000000000
-          Top = 9.251966060000030000
+          Top = 9.251966060000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
-          DisplayFormat.DecimalSeparator = ','
-          DisplayFormat.FormatStr = '%2.2f'
-          DisplayFormat.Kind = fkNumeric
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clBlack
           Font.Height = -13
@@ -6317,7 +6308,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object SysMemo3: TfrxSysMemoView
           AllowVectorExport = True
           Left = 740.787880000000000000
-          Top = 9.338590000000010000
+          Top = 9.338590000000000000
           Width = 94.488250000000000000
           Height = 18.897650000000000000
           DisplayFormat.DecimalSeparator = ','
@@ -6337,10 +6328,8 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         end
         object Shape1: TfrxShapeView
           AllowVectorExport = True
-          ShiftMode = smDontShift
-          Top = 0.559060000000000000
           Width = 1046.929810000000000000
-          Height = 34.015770000000000000
+          Height = 37.795300000000000000
           Frame.Typ = []
         end
       end
@@ -9937,7 +9926,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         FillType = ftBrush
         Frame.Typ = []
         Height = 22.677180000000000000
-        Top = 445.984540000000000000
+        Top = 393.071120000000000000
         Width = 1046.929810000000000000
         object SysMemo2: TfrxSysMemoView
           AllowVectorExport = True
@@ -9954,78 +9943,6 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Memo.UTF8W = (
             '[PAGE#] de [TOTALPAGES#]')
           ParentFont = False
-        end
-      end
-      object Footer1: TfrxFooter
-        FillType = ftBrush
-        Frame.Typ = []
-        Height = 33.133890000000000000
-        Top = 351.496290000000000000
-        Width = 1046.929810000000000000
-        object SysMemo4: TfrxSysMemoView
-          AllowVectorExport = True
-          Left = 468.661720000000000000
-          Top = 7.000000000000000000
-          Width = 94.488250000000000000
-          Height = 18.897650000000000000
-          DisplayFormat.DecimalSeparator = ','
-          DisplayFormat.FormatStr = '%2.2f'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          HAlign = haCenter
-          Memo.UTF8W = (
-            '[SUM(<frxDBDataset1."quantidade">,MasterData1)]')
-          ParentFont = False
-          VAlign = vaCenter
-        end
-        object Memo10: TfrxMemoView
-          AllowVectorExport = True
-          Left = 306.141930000000000000
-          Top = 7.000000000000000000
-          Width = 151.181200000000000000
-          Height = 18.897650000000000000
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            'Totais do Periodo')
-          ParentFont = False
-        end
-        object SysMemo5: TfrxSysMemoView
-          AllowVectorExport = True
-          Left = 744.566931570000000000
-          Top = 7.000000000000000000
-          Width = 90.708720000000000000
-          Height = 18.897650000000000000
-          DisplayFormat.DecimalSeparator = ','
-          DisplayFormat.FormatStr = '%2.2m'
-          DisplayFormat.Kind = fkNumeric
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -13
-          Font.Name = 'Arial'
-          Font.Style = [fsBold]
-          Frame.Typ = []
-          HAlign = haRight
-          Memo.UTF8W = (
-            '[SUM(<frxDBDataset1."valorCobrado">,MasterData1)]')
-          ParentFont = False
-        end
-        object Line2: TfrxLineView
-          AllowVectorExport = True
-          Top = 33.133890000000000000
-          Width = 1046.929810000000000000
-          Color = clBlack
-          Frame.Typ = [ftTop]
         end
       end
     end

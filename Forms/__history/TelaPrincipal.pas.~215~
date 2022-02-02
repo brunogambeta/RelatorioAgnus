@@ -128,8 +128,16 @@ begin
     queryDadosProdutos.SQL.Add('left join FormaPagamentoCupomFiscal f1 on (f1.IdDocumentoFiscal = d1.id)');
     queryDadosProdutos.SQL.Add('left join FormaPagamento f2 on (f2.Id = f1.IdFormaPagamento)');
     queryDadosProdutos.SQL.Add('left join VendaCartaoConsumo v4 on (v4.idVenda = v2.Id)');
-    queryDadosProdutos.SQL.Add('where cast(d1.data as date) between ''' +
-      dataInicial + ''' and ''' + dataFinal + '''');
+
+    if CheckBoxFiltrarHora.Checked then
+    begin
+      queryDadosProdutos.SQL.Add('cast(d1.data+d1.Hora as datetime2) between '''+dataInicial+' '+horaInicial+'.000' and ''''+dataFinal+' '+horaFinal+'.000');
+    end
+    else
+      begin
+        queryDadosProdutos.SQL.Add('where cast(d1.data as date) between ''' +
+        dataInicial + ''' and ''' + dataFinal + '''');
+      end;
     queryDadosProdutos.SQL.Add('and d1.Tipo = ''' + tipoCupom + '''');
     queryDadosProdutos.SQL.Add('and d1.Cancelado = 0 ');
     queryDadosProdutos.SQL.Add('and v3.ValorTotal > 0');
@@ -152,15 +160,6 @@ begin
     begin
       queryDadosProdutos.SQL.Add('');
     end;
-
-    if CheckBoxFiltrarHora.Checked then
-    begin
-      queryDadosProdutos.SQL.Add('and d1.Hora between ''1900-01-01 '+ horaInicial+'.000'' and ''1900-01-01 '+horaFinal+'.000''');
-    end
-    else
-      begin
-        queryDadosProdutos.SQL.Add('');
-      end;
     queryDadosProdutos.SQL.Add('group by ');
     queryDadosProdutos.SQL.Add('p1.id,');
     queryDadosProdutos.SQL.Add('p1.Nome,');
@@ -169,7 +168,8 @@ begin
     queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
     queryDadosProdutos.SQL.Add('a1.Nome');
     queryDadosProdutos.SQL.Add('order by');
-    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento');
+    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
+    queryDadosProdutos.SQL.Add('p1.id');
 
   end;
 
@@ -233,7 +233,6 @@ end;
 
 procedure TfrmTelaPrincipal.FormCreate(Sender: TObject);
 begin
-
   ComboBox1Change(Self);
   ComboBox2Change(Self);
 

@@ -53,7 +53,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btImprimirClick(Sender: TObject);
     procedure ComboBox2Change(Sender: TObject);
-    procedure Label7Click(Sender: TObject);
 
   private
     { Private declarations }
@@ -170,7 +169,8 @@ begin
     queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
     queryDadosProdutos.SQL.Add('a1.Nome');
     queryDadosProdutos.SQL.Add('order by');
-    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento');
+    queryDadosProdutos.SQL.Add('f1.IdFormaPagamento,');
+    queryDadosProdutos.SQL.Add('p1.id');
 
   end;
 
@@ -234,14 +234,8 @@ end;
 
 procedure TfrmTelaPrincipal.FormCreate(Sender: TObject);
 begin
-
   ComboBox1Change(Self);
   ComboBox2Change(Self);
-
-end;
-
-procedure TfrmTelaPrincipal.Label7Click(Sender: TObject);
-begin
 
 end;
 
