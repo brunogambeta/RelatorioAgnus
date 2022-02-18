@@ -5823,107 +5823,120 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     CursorType = ctStatic
     Parameters = <>
     SQL.Strings = (
-      ''
       'select '
-      'p1.id IDProduto,'
+      'f1.IdFormaPagamento IDFormaPagamento,'
+      'p1.id CodigoProduto ,'
+      'v2.quantidade Quantidade,'
+      'p1.Nome NomeProduto,'
+      'v2.ValorTotal ValorCobrado,'
+      't3.Nome as NomeOperacao,'
+      'b1.Nome as NomeBandeira,'
+      't3.id,'
       
         '(select top 1 Nome from FormaPagamento where id = f1.IdFormaPaga' +
-        'mento) NomeFormaPagamento,'
+        'mento ) as NomeFormaPagamento,'
       
-        '(select top 1 Id from FormaPagamento where id = f1.IdFormaPagame' +
-        'nto) IDFormaPagamento,'
-      'p1.Nome nomeProduto,'
-      'p1.IDAgrupamento IDAgrupamento,'
-      'a1.Nome,'
-      'sum(v3.ValorTotal) valorCobrado,'
-      'sum(v3.quantidade) quantidade,'
+        '(select top 1 ValorUnitario from Produto where id = p1.Id ) Valo' +
+        'rUnitario'
+      'from FormaPagamentoCupomFiscal f1'
+      'left join DocumentoFiscal d1 on (d1.Id = f1.IdDocumentoFiscal)'
+      'left join VendaCupomFiscal v1 on (v1.IdDocumentoFiscal = d1.id)'
+      'left join Venda v3 on (v3.id = v1.idVenda)'
+      'left join VendaItem v2 on (v2.IdVenda = v1.IdVenda)'
+      'left join Produto p1 on (p1.Id = v2.IdProduto)'
       
-        '(select top 1 ValorUnitario from Produto where id = p1.Id ) valo' +
-        'rUnitario '
-      'from VendaCupomFiscal v1 '
-      'left join Documentofiscal d1 on (d1.id = v1.IdDocumentoFiscal)'
-      'left join Venda v2 on (v2.Id = v1.IdVenda)'
-      'left join VendaItem v3 on (v3.IdVenda = v2.Id)'
-      'left join Produto p1 on (p1.Id = v3.IdProduto)'
-      'left join Agrupamento a1 on (a1.id = p1.idAgrupamento)'
+        'left join TransacaoCartaoFormaPagamentoCupomFiscal t1 on (t1.IdF' +
+        'ormaPagamentoCupomFiscal = f1.Id)'
+      'left join TransacaoCartao t2 on (t2.Id = t1.IdTransacaoCartao)'
+      'left join OperacaoCartao o1 on (o1.Id = t2.IdOperacaoCartao)'
       
-        'left join FormaPagamentoCupomFiscal f1 on (f1.IdDocumentoFiscal ' +
-        '= d1.id)'
-      'left join FormaPagamento f2 on (f2.Id = f1.IdFormaPagamento)'
-      'left join VendaCartaoConsumo v4 on (v4.idVenda = v2.Id)'
+        'left join TipoOperacaoCartao t3 on (t3.Id = o1.IdTipoOperacaoCar' +
+        'tao)'
+      'left join BandeiraCartao b1 on (o1.IdBandeiraCartao = b1.id)'
+      'where'
       
-        'where cast(d1.data as date) between '#39'2021-12-01'#39' and '#39'2021-12-02' +
-        #39
+        'cast(d1.data+d1.Hora as datetime2) between '#39'2022-02-16 18:00:00.' +
+        '000'#39' and '#39'2022-02-17 02:39:00.000'#39
+      'and v2.Pago = 1'
       'and d1.Tipo = '#39'CF'#39' '
       'and d1.Cancelado = 0'
-      'and v3.ValorTotal > 0'
+      'and p1.idAgrupamento = 11'
       'group by'
-      'p1.id,'
-      'p1.Nome,'
-      'p1.IdAgrupamento,'
-      'v3.valorUnitario,'
       'f1.IdFormaPagamento,'
-      'a1.Nome'
+      'p1.Nome,'
+      'p1.id,'
+      'v2.id,'
+      'v2.quantidade,'
+      'v2.ValorTotal,'
+      'v2.valorUnitario,'
+      't3.Nome,'
+      'b1.Nome,'
+      'b1.id,'
+      't3.id'
       'order by '
       'f1.IdFormaPagamento,'
+      'b1.id,'
+      't3.id,'
       'p1.id')
     Left = 392
     Top = 48
-    object queryDadosProdutosIDProduto: TLargeintField
-      FieldName = 'IDProduto'
+    object queryDadosProdutosIDFormaPagamento: TIntegerField
+      FieldName = 'IDFormaPagamento'
+    end
+    object queryDadosProdutosCodigoProduto: TLargeintField
+      FieldName = 'CodigoProduto'
+    end
+    object queryDadosProdutosQuantidade: TBCDField
+      FieldName = 'Quantidade'
+      Precision = 10
+      Size = 3
+    end
+    object queryDadosProdutosNomeProduto: TStringField
+      FieldName = 'NomeProduto'
+      Size = 100
+    end
+    object queryDadosProdutosValorCobrado: TBCDField
+      FieldName = 'ValorCobrado'
+      Precision = 10
+      Size = 2
     end
     object queryDadosProdutosNomeFormaPagamento: TStringField
       FieldName = 'NomeFormaPagamento'
       ReadOnly = True
       Size = 100
     end
-    object queryDadosProdutosIDFormaPagamento: TIntegerField
-      FieldName = 'IDFormaPagamento'
-      ReadOnly = True
-    end
-    object queryDadosProdutosnomeProduto: TStringField
-      FieldName = 'nomeProduto'
-      Size = 100
-    end
-    object queryDadosProdutosIDAgrupamento: TLargeintField
-      FieldName = 'IDAgrupamento'
-    end
-    object queryDadosProdutosNome: TStringField
-      FieldName = 'Nome'
-      Size = 100
-    end
-    object queryDadosProdutosvalorCobrado: TFMTBCDField
-      FieldName = 'valorCobrado'
-      ReadOnly = True
-      Precision = 38
-      Size = 2
-    end
-    object queryDadosProdutosquantidade: TFMTBCDField
-      FieldName = 'quantidade'
-      ReadOnly = True
-      Precision = 38
-      Size = 3
-    end
-    object queryDadosProdutosvalorUnitario: TBCDField
-      FieldName = 'valorUnitario'
+    object queryDadosProdutosValorUnitario: TBCDField
+      FieldName = 'ValorUnitario'
       ReadOnly = True
       Precision = 10
       Size = 2
+    end
+    object queryDadosProdutosNomeOperacao: TStringField
+      FieldName = 'NomeOperacao'
+      Size = 100
+    end
+    object queryDadosProdutosNomeBandeira: TStringField
+      FieldName = 'NomeBandeira'
+      Size = 150
+    end
+    object queryDadosProdutosid: TLargeintField
+      FieldName = 'id'
     end
   end
   object frxDBDataset1: TfrxDBDataset
     UserName = 'frxDBDataset1'
     CloseDataSource = False
     FieldAliases.Strings = (
-      'IDProduto=IDProduto'
-      'NomeFormaPagamento=NomeFormaPagamento'
       'IDFormaPagamento=IDFormaPagamento'
-      'nomeProduto=nomeProduto'
-      'IDAgrupamento=IDAgrupamento'
-      'Nome=Nome'
-      'valorCobrado=valorCobrado'
-      'quantidade=quantidade'
-      'valorUnitario=ValorUnitario')
+      'CodigoProduto=CodigoProduto'
+      'Quantidade=quantidade'
+      'NomeProduto=nomeProduto'
+      'ValorCobrado=valorCobrado'
+      'NomeFormaPagamento=NomeFormaPagamento'
+      'ValorUnitario=ValorUnitario'
+      'NomeOperacao=NomeOperacao'
+      'NomeBandeira=NomeBandeira'
+      'id=id')
     DataSet = queryDadosProdutos
     BCDToCurrency = False
     Left = 388
@@ -5963,7 +5976,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
     PrintOptions.Printer = 'Default'
     PrintOptions.PrintOnSheet = 0
     ReportOptions.CreateDate = 44541.944998946800000000
-    ReportOptions.LastChange = 44593.921779375000000000
+    ReportOptions.LastChange = 44609.906399826400000000
     ScriptLanguage = 'PascalScript'
     ScriptText.Strings = (
       'begin'
@@ -6016,7 +6029,7 @@ object frmTelaPrincipal: TfrmTelaPrincipal
           Frame.Typ = []
           HAlign = haCenter
           Memo.UTF8W = (
-            '[frxDBDataset1."IDProduto"]')
+            '[frxDBDataset1."CodigoProduto"]')
           ParentFont = False
         end
         object frxDBDataset1nomeProduto: TfrxMemoView
@@ -6109,8 +6122,9 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         Height = 56.913420000000000000
         Top = 173.858380000000000000
         Width = 1046.929810000000000000
-        Condition = 'frxDBDataset1."IDFormaPagamento"'
+        Condition = '<frxDBDataset1."NomeOperacao">'
         KeepTogether = True
+        OutlineText = '<frxDBDataset1."NomeOperacao">'
         object Memo4: TfrxMemoView
           AllowVectorExport = True
           Left = 3.779530000000000000
@@ -6225,15 +6239,26 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         object frxDBDataset1FormaPagamento: TfrxMemoView
           IndexTag = 1
           AllowVectorExport = True
-          Left = 158.740260000000000000
+          Left = 162.519790000000000000
           Top = 3.779530000000000000
-          Width = 215.433210000000000000
+          Width = 449.764070000000000000
           Height = 18.897650000000000000
           DataSet = frxDBDataset1
           DataSetName = 'frxDBDataset1'
           Frame.Typ = []
           Memo.UTF8W = (
-            '[frxDBDataset1."NomeFormaPagamento"]')
+            
+              '[frxDBDataset1."NomeFormaPagamento"] - [frxDBDataset1."NomeBande' +
+              'ira"] - [frxDBDataset1."NomeOperacao"]')
+          Formats = <
+            item
+            end
+            item
+            end
+            item
+            end
+            item
+            end>
         end
         object Line1: TfrxLineView
           AllowVectorExport = True
@@ -6244,9 +6269,10 @@ object frmTelaPrincipal: TfrmTelaPrincipal
         end
         object Shape2: TfrxShapeView
           AllowVectorExport = True
-          Top = 1.055040000000000000
-          Width = 1046.929810000000000000
-          Height = 52.913420000000000000
+          Left = 0.543290000000000000
+          Top = -0.385900000000000000
+          Width = 1269.922080000000000000
+          Height = 56.692950000000000000
           Frame.Typ = []
         end
       end
